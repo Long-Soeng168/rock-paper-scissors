@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(40, 3, 40);
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+        }
+        button {
+            background-color: transparent;
+            border: 2px solid white;
+            border-radius: 100px;
+            padding: 20px;
+            margin: 10px;
+        }
+        button > .move {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+        p > .move {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Rock Paper Scissors Game</h1>
+        <button onclick="game('Rock')"><img class="move" src="Images/Rock.png"></button>
+        <button onclick="game('Paper')"><img class="move" src="Images/Paper.png"></button>
+        <button onclick="game('Scissors')"><img class="move" src="Images/Scissors.png"></button>
+        <p id="js-result">
+            
+        </p>
+        <p id="js-game-move"></p>
+        <p id="js-score">Wins:0, Losses:0, Draws:0</p>
+    </div>
+    <script>
+        const score =  {
+            wins: 0,
+            losses: 0,
+            draws: 0,   
+        }
+        
+        function game(yourMove = ''){
+            let randomNumber = Math.ceil(Math.random()*3); // 1:Rock, 2:Paper, 3:Scissors
+            let computerMove = '';
+            let result = '';
+            console.log(randomNumber);
+            if(randomNumber === 1){
+                computerMove = 'Rock';
+            }else if (randomNumber === 2){
+                computerMove = 'Paper';
+            }else {
+                computerMove = 'Scissors';
+            }
+
+
+            if(yourMove === computerMove){
+                result = 'Draw.';
+
+            }else if(yourMove === 'Rock'){
+                if(computerMove === 'Paper') result = 'Lose.';
+                if(computerMove === 'Scissors') result = 'Win.';
+
+            }else if(yourMove === 'Paper'){
+                if(computerMove === 'Scissors') result = 'Lose.';
+                if(computerMove === 'Rock') result = 'Win.';
+            
+            }else{
+                if(computerMove === 'Rock') result = 'Lose.';
+                if(computerMove === 'Paper') result = 'Win.';
+            }
+
+            if(result === "Win."){
+                score.wins++;
+            }else if(result === "Lose."){
+                score.losses++;
+            }else {
+                score.draws++;
+            }
+
+            // alert(' You pick : ' + yourMove + ',\n Computer pick : ' + computerMove + ',\n You : ' + result);
+            const yourGameMove = document.querySelector("#js-result");
+            const bothGameMove = document.querySelector("#js-game-move");
+            const yourScore = document.querySelector("#js-score");
+
+            yourGameMove.innerHTML = "You " + result;
+            bothGameMove.innerHTML = `you
+            <img class="move" src="Images/${yourMove}.png">
+            <img class="move" src="Images/${computerMove}.png">
+            computer`;
+            yourScore.innerHTML = "Wins:" + score.wins + ", Losses:" + score.losses + ", Draw:" + score.draws;
+        }
+    </script>
+</body>
+</html>
